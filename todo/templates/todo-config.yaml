@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configMapName }}
+  namespace: {{ .Values.namespace }}
+data:
+  # config.env: |
+  #   PORT 8080
+  #   DB_HOST postgres
+  #   DB_PORT 5432
+  #   DB_USER postgres
+  #   DB_NAME todo
+  PORT: "8080"
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_USER: postgres
+  DB_NAME: postgres

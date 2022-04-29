@@ -1,0 +1,102 @@
+# Default values for todo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+name: todo
+namespace: vish
+
+postgres:
+  replicaCount: 2
+
+global:
+  replicaCount: 4
+
+labels:
+  app: todo-go
+  app.tag: my-todo
+  tag: my-todoe
+
+labelsName: my-todo
+
+replicaCount: 2
+
+image:
+  # repository: vdocker0123/todo:HPA01
+  # repository: vdocker0123/todo:HPA01
+  repository: vdocker0123/todo:alpine
+  # repository: vdocker0123/pvt-todo:HPA01
+  # repository: mydockybaby/my-private-repo:1.0
+  pullPolicy: Always
+
+# envFrom: 
+#   - secretRef:
+#       name: todo-go-secret
+#   - configMapRef: 
+#       name: todo-configmap
+
+secretName: todo-secret
+configMapName: todo-config
+
+# imagePullSecrets: []
+
+resources: 
+  limits:
+    cpu: 500m
+    memory: 20Mi
+  requests:
+    cpu: 100m
+    memory: 10Mi
+
+containerPort: 8080
+
+# livenessProbe:
+#   httpGet:
+#     path: /task
+#     port: 8080
+#     httpHeaders:
+#     - name: Accept
+#       value: application/json
+#   failureThreshold: 2
+#   initialDelaySeconds: 5
+
+# readinessProbe:
+#   httpGet:
+#     path: /task
+#     port: 8080
+#     httpHeaders:
+#     - name: Accept
+#       value: application/json
+#   failureThreshold: 2
+#   initialDelaySeconds: 3
+
+service:
+  type: NodePort
+  port: 8080
+
+
+
+ingress:
+  enabled: true
+  # className: ""
+  # annotations: {}
+  #   # kubernetes.io/ingress.class: nginx
+  #   # kubernetes.io/tls-acme: "true"
+  # hosts:
+  #   - host: my-todo.com
+  #     paths:
+  #       - path: "/"
+  #         pathType: ImplementationSpecific
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 10
+
+pgName: postgres
+pgImage: postgres
+pgLabels:
+  app: postgres
+
+  pgReplicaCount: 1

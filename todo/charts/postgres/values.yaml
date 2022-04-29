@@ -1,0 +1,23 @@
+name: postgres
+namespace: vish
+
+labels:
+  app: postgres
+
+replicaCount: 1
+
+image:
+  repository: postgres:12
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+
+# resources:
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi

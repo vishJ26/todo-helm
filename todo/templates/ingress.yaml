@@ -1,0 +1,21 @@
+{{- if .Values.ingress.enabled  }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    name: todo-ingress
+spec:
+  rules:
+  - host: my-todo.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: {{ .Values.name }}
+            port: 
+              number: {{ .Values.service.port }}
+{{- end }}

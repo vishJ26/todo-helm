@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- toYaml .Values.labels | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- toYaml .Values.labels | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/todo-config.yaml") . | sha256sum }}
+      labels:
+        {{- toYaml .Values.labels | nindent 8 }}
+    spec:
+      containers:
+      - name: todo-go
+        image: {{ .Values.image.repository }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+        envFrom: 
+          - secretRef:
+              name: {{ .Values.secretName }}
+          - configMapRef: 
+              name: {{ .Values.configMapName }}
+
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+
+        ports:
+        - containerPort: {{ .Values.containerPort }}
+
+      #   volumeMounts:
+      #   - name: todo-config-volume
+      #     mountPath: app/todo/mount1
+      #     # subPath: config
+      #     readOnly: true
+      #   - name: todo-secret-volume
+      #     mountPath: app/todo/mount2
+      #     # subPath: secret
+      #     readOnly: true
+
+      # volumes:
+      # - name: todo-config-volume
+      #   configMap:
+      #     name: {{ .Values.configMapName }}
+      # - name: todo-secret-volume
+      #   secret:
+      #     secretName: {{ .Values.secretName }}
