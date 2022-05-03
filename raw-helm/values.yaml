@@ -70,7 +70,7 @@ containerPort: 8080
 #   initialDelaySeconds: 3
 
 service:
-  type: ClusterIp
+  type: ClusterIP
   port: 8080
 
 
