@@ -7,7 +7,7 @@ spec:
  scaleTargetRef:
    apiVersion: apps/v1
    kind: Deployment
-   name: todo-go-depeloyment
+   name: {{ .Values.name }}
  minReplicas: 1
  maxReplicas: 10
  targetCPUUtilizationPercentage: 500
