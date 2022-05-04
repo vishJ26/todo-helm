@@ -10,4 +10,4 @@ spec:
    name: {{ .Values.name }}
  minReplicas: 1
  maxReplicas: 10
- targetCPUUtilizationPercentage: 500
+ targetCPUUtilizationPercentage: 20
