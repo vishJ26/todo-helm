@@ -1,29 +1,13 @@
-{{- if .Values.autoscaling.enabled }}
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "todo.fullname" . }}
-  namespace: {{ .Values.namespace }}
-  labels:
-    {{- include "todo.labels" . | nindent 4 }}
+ name: hpa-deployment
+ namespace: {{ .Values.namespace }}
 spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: {{ include "todo.fullname" . }}
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
-  metrics:
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
-{{- end }}
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: todo-go-depeloyment
+ minReplicas: 1
+ maxReplicas: 10
+ targetCPUUtilizationPercentage: 500
